@@ -51,20 +51,20 @@ def main(argv):
 		raise SystemExit(_('error_no_argument'))
 
 	# if query is not provided, exit
-	if (lets['query'] == None):
+	if (lets['query'] is None):
 		raise SystemExit(_('error_no_query'))
 	else:
 		grab_summary(lets['query'], lets['lang'])
 
 
-def grab_summary(q: str, l: str):
+def grab_summary(title: str, language: str):
 	# get the summary
-	wikipedia = MediaWiki(user_agent=os.getenv('MEDIAWIKI_USER_AGENT'), lang=l)
+	wikipedia = MediaWiki(user_agent=os.getenv('MEDIAWIKI_USER_AGENT'), lang=language)
 	summary: str = ''
 	try:
-		search = wikipedia.search(query=q, results=1)
+		search = wikipedia.search(query=title, results=1)
 		summary = wikipedia.summary(search[0])
-	except:
+	except Exception:
 		raise SystemExit(_('error_page_not_found'))
 
 	# print the summary
